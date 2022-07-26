@@ -8,7 +8,7 @@ import skfuzzy as skf
 
 app = FastAPI()  # creating API object
 
-app.add_middleware(
+app.add_middleware(  # to communicate between react running on 3000 and BE running on 8000
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
@@ -37,9 +37,9 @@ async def websocket_endpoint(websocket: WebSocket):
         certainity = list(membership_speed)[0] * 0.5 + list(membership_density)[0] * 0.5
         timestamp = time.time()
         result = {
+            "timestamp": timestamp,
             "Speed": rand_speed,
             "Density": rand_density,
-            "timestamp": timestamp,
             "certainity": certainity,
         }
         await websocket.send_text(f"{result}")

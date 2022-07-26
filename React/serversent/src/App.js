@@ -70,26 +70,26 @@ function App() {
 
   const cases = {
     low: {
-      speed: { lower: 0, upper: 20 },
+      speed: { lower: 40, upper: 80 },
+      density: {
+        lower: 0,
+        upper: 20,
+      },
+      interval: 1000,
+    },
+    moderate: {
+      speed: { lower: 40, upper: 80 },
       density: {
         lower: 20,
         upper: 40,
       },
       interval: 1000,
     },
-    moderate: {
+    high: {
       speed: { lower: 10, upper: 50 },
       density: {
         lower: 40,
         upper: 60,
-      },
-      interval: 1000,
-    },
-    high: {
-      speed: { lower: 40, upper: 80 },
-      density: {
-        lower: 80,
-        upper: 120,
       },
       interval: 1000,
     },
@@ -220,17 +220,26 @@ function App() {
           </select>
         </div>
       </div>
+
+      
       <div className="selectbox_container" style={{ padding: "1rem" }}>
+      <label htmlFor="">
+          Sense Frequency
+          <input type="text" name="sense_freq" onChange={handleInputChange} />  
+        </label>
+      </div>
+
+      <div className="selectbox_container" style={{ padding: "1rem" }}>        
         <label htmlFor="">
-          Enter number of values
+          Enter number of data records you want to generate
           <input type="text" name="val_sit1" onChange={handleInputChange} />
         </label>
         <label htmlFor="">
-          Enter number of values
+        Enter number of data records you want to generate
           <input type="text" name="val_sit2" onChange={handleInputChange} />
         </label>
         <label htmlFor="">
-          Enter number of values
+        Enter number of data records you want to generate
           <input type="text" name="val_sit3" onChange={handleInputChange} />
         </label>
       </div>
