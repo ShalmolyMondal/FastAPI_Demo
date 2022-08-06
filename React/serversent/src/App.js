@@ -37,20 +37,40 @@ function App() {
   useEffect(() => {
     if (values.length > 0) {
       commands.wait.fn();
-      setCsvData((csv) => {
-        const shallow = Object.entries(values).map((entry) => {
-          if (entry[0] !== "certainity") {
-            return { ...entry };
-          }
-        });
-
-        return [...csv, shallow];
-      });
+      setCsvData((csv) => [...csv, Object.values(values)]);
     }
   }, [values]);
 
   useEffect(() => {
-    console.log(csvData);
+    if (orderIndex === 2) {
+      /**Csv string creation by iterating the array */
+      const csvString = [
+        ["Speed", "Density", "Timestamp", "Certainity"],
+        ...csvData.map((item) => {
+          return [
+            item[0].Speed,
+            item[0].Density,
+            item[0].timestamp,
+            item[0].certainity,
+          ];
+        }),
+      ]
+        .map((e) => e.join(","))
+        .join("\n");
+
+      console.log(csvString);
+
+      /**Creating automatic download after data generation is completed */
+      let hiddenElement = document.createElement("a");
+      hiddenElement.href =
+        "data:text/csv;charset=utf-8," + encodeURI(csvString);
+      hiddenElement.target = "_blank";
+
+      hiddenElement.download = "ExportedData.csv";
+      setTimeout(() => {
+        hiddenElement.click();
+      }, 1500);
+    }
   }, [csvData]);
 
   const myWorker = new Worker(new URL("./worker.js", import.meta.url));
@@ -117,6 +137,11 @@ function App() {
       if (!orderIndex) {
         setOrderIndex(1);
       } else {
+        if (orderIndex === 2) {
+          myWorker.terminate();
+
+          return;
+        }
         setOrderIndex((oi) => oi + 1);
       }
     }

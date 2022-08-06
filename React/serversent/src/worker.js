@@ -2,7 +2,7 @@ onmessage = async function (bound) {
   // Create WebSocket connection.
   const socket = new WebSocket("ws://localhost:8000/websocket");
   let k = 0;
-  let intervalID;
+  var intervalID;
   // Connection opened
   socket.addEventListener("open", function (event) {
     intervalID = setInterval(() => {
